@@ -76,6 +76,8 @@ public class MainActivity extends ActionBarActivity {
         public ForecastFragment() {
         }
 
+        private ArrayAdapter <String> mForecastAdapter;
+
         @Override
         public void onCreate (Bundle savedInstanceState)
         {
@@ -119,7 +121,7 @@ public class MainActivity extends ActionBarActivity {
 
             };
 
-            ArrayAdapter <String> mForecastAdapter;
+
 
             List<String> weekForecast = new ArrayList<String>(Arrays.asList(forecastArray));
 
@@ -152,6 +154,8 @@ listView.setAdapter(mForecastAdapter);
                 SimpleDateFormat shortenedDateFormat = new SimpleDateFormat("EEE MMM dd");
                 return shortenedDateFormat.format(time);
             }
+
+
 
             /**
              * Prepare the weather high/lows for presentation.
@@ -330,6 +334,21 @@ listView.setAdapter(mForecastAdapter);
                 }
 
             return null;
+            }
+
+            @Override
+            protected void onPostExecute(String[] result) {
+
+                if (result != null)
+                {
+                    mForecastAdapter.clear();
+                    for (String dayForecastStr : result)
+                    {
+                        mForecastAdapter.add(dayForecastStr);
+                    }
+                }
+
+                super.onPostExecute(result);
             }
 
             protected void onProgressUpdate ()
